@@ -1,33 +1,13 @@
 import React from 'react'
+import { publicRoutes } from '@/routes/public'
+import { privateRoutes } from '@/routes/private'
 import { useRoutes } from 'react-router-dom'
-
-type Route = {
-   path: string
-   element: React.ReactNode
-}
-
-const Main = React.lazy(() => {
-   return new Promise((resolve) => {
-      setTimeout(() => {
-         import('../Landing').then((result) => resolve(result))
-      }, 3000)
-   })
-})
+import { useAuth } from '@/lib/auth'
 
 export const AppRoutes = () => {
-   const commonRoutes: Route[] = [
-      { path: '/', element: <Main /> },
-      { path: '/test', element: <h1>Test</h1> },
-      { path: '*', element: <h1>Not found</h1> },
-   ]
-
-   const privateRoutes: Route[] = []
-   const publicRoutes: Route[] = []
-
-   const isAuthenticated = true
+   const { isAuthenticated } = useAuth()
    const routes = isAuthenticated ? privateRoutes : publicRoutes
-
-   const element = useRoutes([...routes, ...commonRoutes])
+   const element = useRoutes([...routes])
 
    return <>{element}</>
 }

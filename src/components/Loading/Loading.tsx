@@ -1,6 +1,6 @@
 import { Box, Heading, Progress } from '@chakra-ui/react'
 
-export const Fallback = () => {
+export const Loading = () => {
    return (
       <Box
          h='100vh'

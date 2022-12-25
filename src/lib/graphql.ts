@@ -1,4 +1,5 @@
 import { API_URL } from '@/config'
+import { addNotification } from '@/lib/notifications'
 import storage from '@/utils/storage'
 import {
    ApolloClient,
@@ -15,15 +16,21 @@ const httpLink = createHttpLink({
 
 const errorLink = onError(({ graphQLErrors, networkError, response }) => {
    if (graphQLErrors) {
-      graphQLErrors.forEach(({ message, locations, path }) => {
-         alert(
-            `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
-         )
+      graphQLErrors.forEach(({ message }) => {
+         addNotification({
+            status: 'error',
+            title: 'Error',
+            description: message,
+         })
       })
    }
 
    if (networkError) {
-      alert(`[Network error]: ${networkError}`)
+      addNotification({
+         status: 'error',
+         title: 'Network error',
+         description: `${networkError}`,
+      })
    }
 })
 
@@ -41,7 +48,7 @@ const authLink = setContext((_, { headers }) => {
 })
 
 export const client = new ApolloClient({
-   link: from([authLink.concat(httpLink), errorLink]),
+   link: from([errorLink, authLink.concat(httpLink)]),
    cache: new InMemoryCache({}),
    connectToDevTools: true,
 })
