@@ -3,12 +3,14 @@ import { gql, useMutation, MutationFunctionOptions } from '@apollo/client'
 import { GET_PROJECTS } from './getProjects'
 import { useState } from 'react'
 
-const CREATE_PROJECT = gql`
-   mutation createProject(
+const UPDATE_PROJECT = gql`
+   mutation updateProject(
+      $id: ID!
       $title: String!
       $color: String!
    ) {
-      createProject(
+      updateProject(
+         id: $id
          title: $title
          color: $color
       ) {
@@ -17,14 +19,14 @@ const CREATE_PROJECT = gql`
    }
 `
 
-type CreateProjectMutation = {
-   createProject: RawProject
+type UpdateProjectMutation = {
+   updateProject: RawProject
 }
 
-export const useCreateProject = () => {
+export const useUpdateProject = () => {
    const [completed, setCompleted] = useState(false)
-   const [create, { loading, error }] = useMutation<CreateProjectMutation>(
-      CREATE_PROJECT,
+   const [update, { loading, error }] = useMutation<UpdateProjectMutation>(
+      UPDATE_PROJECT,
       {
          refetchQueries: [
             {
@@ -35,15 +37,15 @@ export const useCreateProject = () => {
       }
    )
 
-   async function createProject(
-      data: MutationFunctionOptions<CreateProjectMutation>
+   async function updateProject(
+      data: MutationFunctionOptions<UpdateProjectMutation>
    ) {
       setCompleted(false)
-      return await create(data)
+      return await update(data)
    }
 
    return {
-      createProject,
+      updateProject,
       loading,
       error,
       completed,

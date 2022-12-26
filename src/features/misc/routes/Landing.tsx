@@ -4,7 +4,12 @@ import { Button, Heading, HStack, Text } from '@chakra-ui/react'
 
 export const Landing = () => {
    return (
-      <MainLayout h='100vh' placeContent='center' placeItems='center' gap={20}>
+      <MainLayout
+         minH='85vh'
+         placeContent='center'
+         placeItems='center'
+         gap={20}
+      >
          <Heading>Goal tracker</Heading>
 
          <Text>

@@ -14,19 +14,24 @@ export type ProjectFormData = {
 }
 
 type ProjectFormProps = {
+   id: string
    color: string
    setColor: (c: string) => void
    onSubmit: (data: ProjectFormData) => void
+   defaultValues?: ProjectFormData
 }
 
 export const ProjectForm = ({
+   id,
+   defaultValues,
    onSubmit,
    color,
    setColor,
 }: ProjectFormProps) => {
    return (
       <Form<ProjectFormData, typeof schema>
-         id='create_project'
+         id={id}
+         defaultValues={defaultValues}
          onSubmit={onSubmit}
          schema={schema}
          styleProps={{

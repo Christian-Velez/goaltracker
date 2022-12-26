@@ -1,20 +1,49 @@
 import { Loading } from '@/components/Loading'
 import { useProjects } from '@/features/projects/api/getProjects'
-import { Project } from '@/features/projects/types'
-import { HStack, Text, useColorModeValue, VStack } from '@chakra-ui/react'
+import { RawProject } from '@/features/projects/types'
+import {
+   Badge,
+   HStack,
+   IconButton,
+   Text,
+   useColorModeValue,
+   VStack,
+} from '@chakra-ui/react'
+import { AiFillEdit } from 'react-icons/ai'
+import { useProjectsContext } from '../store'
 
-const ProjectItem = ({ project }: { project: Project }) => {
+const ProjectItem = ({ project }: { project: RawProject }) => {
+   const { openEditModal } = useProjectsContext()
+
    return (
       <HStack
          w='full'
          borderWidth='1px'
          borderStyle='solid'
-         borderColor={useColorModeValue('gray.200', `${project.color}.200`)}
+         borderColor={useColorModeValue('blackAlpha.200', 'whiteAlpha.200')}
          borderRadius='sm'
          padding={10}
          justify='space-between'
+         textAlign='start'
       >
-         <Text>{project.title}</Text>
+         <VStack alignItems='flex-start'>
+            <Text fontWeight='bold'>{project.title}</Text>
+            <Badge
+               colorScheme={project.color}
+               display={{ base: 'none', md: 'inline-block' }}
+            >
+               {project.daysAchieved}{' '}
+               {project.daysAchieved === 1 ? 'day' : 'days'} achieved
+            </Badge>
+         </VStack>
+
+         <IconButton
+            aria-label='Edit'
+            icon={<AiFillEdit />}
+            variant={useColorModeValue('ghost', 'solid')}
+            colorScheme={useColorModeValue('twitter', 'gray')}
+            onClick={() => openEditModal(project)}
+         />
       </HStack>
    )
 }

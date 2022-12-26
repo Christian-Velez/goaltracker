@@ -10,14 +10,7 @@ import {
    ModalBody,
    ModalFooter,
 } from '@chakra-ui/react'
-
-type ModalProps = {
-   title: string
-   triggerButton: React.ReactElement
-   submitButton: React.ReactElement
-   children: React.ReactNode
-   isDone: boolean
-}
+import { ModalProps } from './types'
 
 export const Modal = ({
    title,
@@ -25,16 +18,21 @@ export const Modal = ({
    submitButton,
    isDone,
    children,
+   control,
 }: ModalProps) => {
-   const { onClose, onOpen, isOpen } = useDisclosure()
+   const localControl = useDisclosure()
+   const { onClose, onOpen, isOpen } = control || localControl
 
    useEffect(() => {
-      if (isDone) onClose()
+      if (isDone) {
+         onClose()
+      }
    }, [isDone, onClose])
 
    return (
       <>
-         {React.cloneElement(triggerButton, { onClick: onOpen })}
+         {triggerButton &&
+            React.cloneElement(triggerButton, { onClick: onOpen })}
 
          <ChakraModal isOpen={isOpen} onClose={onClose} isCentered>
             <ModalOverlay />

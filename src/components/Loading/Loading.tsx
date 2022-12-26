@@ -28,6 +28,7 @@ export const Loading = ({
             size='xs'
             colorScheme={useColorModeValue('purple', 'orange')}
             w='400px'
+            maxW='80vw'
             isIndeterminate
          />
       </Box>
@@ -36,7 +37,7 @@ export const Loading = ({
 
 export const LoadingScreen = (props: LoadingProps) => {
    return (
-      <Box h='100vh' w='full' display='grid'>
+      <Box h='85vh' w='full' display='grid'>
          <Loading {...props} size='lg' />
       </Box>
    )

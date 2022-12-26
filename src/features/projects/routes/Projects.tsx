@@ -1,15 +1,20 @@
-import { CreateProject } from '@/features/projects/components/CreateProject'
 import { Heading, VStack } from '@chakra-ui/react'
 import { ProjectsList } from '../components/ProjectsList'
+import { StoreProvider } from '../store'
+import { CreateProject } from '../components/CreateProject'
+import { UpdateProject } from '../components/UpdateProject'
 
 export const Projects = () => {
    return (
-      <VStack spacing={10}>
-         <Heading>Projects</Heading>
+      <StoreProvider>
+         <VStack spacing={10}>
+            <Heading>Projects</Heading>
 
-         <CreateProject />
+            <CreateProject />
+            <UpdateProject />
 
-         <ProjectsList />
-      </VStack>
+            <ProjectsList />
+         </VStack>
+      </StoreProvider>
    )
 }

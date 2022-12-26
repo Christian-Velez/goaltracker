@@ -1,9 +1,14 @@
 import { BaseEntity } from '@/types'
 
-export const ProjectTypeDef = `
+export const RawProjectTypeDef = `
    id
    title
    color
+   daysAchieved
+`
+
+export const ProjectTypeDef = `
+   ${RawProjectTypeDef}
    statusList {
       id
       date
@@ -16,8 +21,12 @@ type Status = {
    value?: number | null
 } & BaseEntity
 
-export type Project = {
+export type RawProject = {
    title: string
    color: string
-   status: Status[]
+   daysAchieved: number
 } & BaseEntity
+
+export type Project = {
+   statusList: Status[]
+} & RawProject

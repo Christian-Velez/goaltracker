@@ -33,7 +33,12 @@ export const CreateProject = () => {
             </Button>
          }
       >
-         <ProjectForm onSubmit={onSubmit} color={color} setColor={setColor} />
+         <ProjectForm
+            id='create_project'
+            onSubmit={onSubmit}
+            color={color}
+            setColor={setColor}
+         />
       </Modal>
    )
 }

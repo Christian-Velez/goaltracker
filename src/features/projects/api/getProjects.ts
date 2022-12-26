@@ -1,16 +1,16 @@
-import { Project, ProjectTypeDef } from '../types'
+import { RawProject, RawProjectTypeDef } from '../types'
 import { gql, useQuery } from '@apollo/client'
 
 export const GET_PROJECTS = gql`
    query {
       getProjects {
-         ${ProjectTypeDef}
+         ${RawProjectTypeDef}
       }
    }
 `
 
 type GetProjectsQuery = {
-   getProjects: [Project]
+   getProjects: [RawProject]
 }
 
 export const useProjects = () => {
