@@ -1,16 +1,12 @@
-import { useAuth } from '@/lib/auth'
-import { Button } from '@chakra-ui/react'
+import { Layout } from '@/components/Layout'
+import { Projects } from '@/features/projects'
 import { Navigate, Outlet } from 'react-router-dom'
 
 const App = () => {
-   const { user, logout } = useAuth()
-
    return (
-      <div>
-         <pre>{JSON.stringify(user, null, 4)}</pre>
-         <Button onClick={logout}>Logout</Button>
+      <Layout>
          <Outlet />
-      </div>
+      </Layout>
    )
 }
 
@@ -21,8 +17,8 @@ export const privateRoutes = [
       children: [
          {
             path: '',
-            element: <div>Bienvenido a la App</div>,
-         },
+            element: <Projects />,
+         }
       ],
    },
    {

@@ -1,3 +1,4 @@
+import { LAYOUT_MAX_WIDTH } from '@/components/Layout'
 import { Container, ContainerProps } from '@chakra-ui/react'
 
 type MainLayoutProps = {
@@ -7,7 +8,7 @@ type MainLayoutProps = {
 export const MainLayout = ({ children, ...rest }: MainLayoutProps) => {
    return (
       <Container
-         maxW='container.md'
+         maxW={LAYOUT_MAX_WIDTH}
          py={20}
          display='grid'
          textAlign='center'

@@ -9,7 +9,7 @@ import storage from '@/utils/storage'
 import { User } from '@/features/user'
 import { UserResponse } from '@/features/auth/types'
 import { useGetUser } from '@/features/auth/api/getUser'
-import { Loading } from '@/components/Loading'
+import { LoadingScreen } from '@/components/Loading'
 
 type AuthContextType = {
    isAuthenticated: boolean
@@ -80,7 +80,7 @@ export const useAuth = () => {
 export const Auth = ({ children }: AuthProviderProps) => {
    const { isLoading, ...auth } = useAuthProvider()
 
-   if (isLoading) return <Loading />
+   if (isLoading) return <LoadingScreen />
 
    return <AuthContext.Provider value={auth}>{children}</AuthContext.Provider>
 }
