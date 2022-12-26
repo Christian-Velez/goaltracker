@@ -1,6 +1,9 @@
 import { Layout } from '@/components/Layout'
-import { Projects } from '@/features/projects'
+import { lazyImport } from '@/utils/lazyImport'
 import { Navigate, Outlet } from 'react-router-dom'
+
+const { Projects } = lazyImport(() => import('@/features/projects'), 'Projects')
+const { Project } = lazyImport(() => import('@/features/projects'), 'Project')
 
 const App = () => {
    return (
@@ -18,6 +21,10 @@ export const privateRoutes = [
          {
             path: '',
             element: <Projects />,
+         },
+         {
+            path: 'project/:projectId',
+            element: <Project />,
          },
       ],
    },

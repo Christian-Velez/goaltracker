@@ -1,4 +1,4 @@
-import { Loading } from '@/components/Loading'
+import { Skeleton } from '@/components/Skeleton'
 import { useProjects } from '@/features/projects/api/getProjects'
 import { RawProject } from '@/features/projects/types'
 import {
@@ -11,10 +11,16 @@ import {
    VStack,
 } from '@chakra-ui/react'
 import { AiFillDelete, AiFillEdit } from 'react-icons/ai'
+import { useNavigate } from 'react-router-dom'
 import { useProjectsModal } from '../store'
 
 const ProjectItem = ({ project }: { project: RawProject }) => {
+   const navigate = useNavigate()
    const { openModal } = useProjectsModal()
+
+   function viewProject() {
+      navigate(`/app/project/${project.id}`)
+   }
 
    return (
       <Grid
@@ -31,6 +37,7 @@ const ProjectItem = ({ project }: { project: RawProject }) => {
          gap={5}
          justifyContent='space-between'
          textAlign='start'
+         onClick={viewProject}
       >
          <GridItem>
             <VStack alignItems='flex-start'>
@@ -76,15 +83,15 @@ const ProjectItem = ({ project }: { project: RawProject }) => {
 export const ProjectsList = () => {
    const { projects, loading } = useProjects()
 
-   if (loading) return <Loading text='Loading projects' />
+   if (loading) return <Skeleton number={10} />
 
    if (!projects?.length) return <Text>No projects</Text>
 
    return (
-      <VStack w='full' spacing={5}>
+      <Grid w='full' gap={5}>
          {projects.map((project) => (
             <ProjectItem key={project.id} project={project} />
          ))}
-      </VStack>
+      </Grid>
    )
 }
