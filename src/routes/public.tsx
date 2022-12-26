@@ -1,11 +1,15 @@
-import Main from '../Landing'
-import { Register } from '@/features/auth'
+import { Register, Login } from '@/features/auth'
+import { Landing } from '@/features/misc'
 import { Navigate } from 'react-router-dom'
 
 export const publicRoutes = [
    {
       path: '',
-      element: <Main />,
+      element: <Landing />,
+   },
+   {
+      path: '/login',
+      element: <Login />,
    },
    {
       path: '/register',

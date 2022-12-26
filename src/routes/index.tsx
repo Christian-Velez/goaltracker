@@ -1,4 +1,3 @@
-import React from 'react'
 import { publicRoutes } from '@/routes/public'
 import { privateRoutes } from '@/routes/private'
 import { useRoutes } from 'react-router-dom'

@@ -1,40 +1,32 @@
 import * as yup from 'yup'
 import { Form } from '@/components/Form'
 import { Input } from '@/components/Input'
+import { useLogin } from '@/features/auth/api/login'
 import { Button } from '@chakra-ui/react'
-import { useRegister } from '../api/register'
 
-type RegisterData = {
+type LoginData = {
    email: string
-   name: string
    password: string
-}
-
-type RegisterFormProps = {
-   onSuccess?: () => void
 }
 
 const schema = yup
    .object({
       email: yup.string().email().required(),
-      name: yup.string().min(6).required(),
-      password: yup.string().min(6).required(),
+      password: yup.string().required(),
    })
    .required()
 
-export const RegisterForm = ({ onSuccess = () => {} }: RegisterFormProps) => {
-   const mutation = useRegister()
+export const LoginForm = () => {
+   const mutation = useLogin()
 
-   async function onSubmit(data: RegisterData) {
-      mutation
-         .register({
-            variables: data,
-         })
-         .then(() => onSuccess())
+   function onSubmit(data: LoginData) {
+      mutation.login({
+         variables: data,
+      })
    }
 
    return (
-      <Form<RegisterData, typeof schema> onSubmit={onSubmit} schema={schema}>
+      <Form<LoginData, typeof schema> onSubmit={onSubmit} schema={schema}>
          {({ register, formState }) => {
             return (
                <>
@@ -46,20 +38,18 @@ export const RegisterForm = ({ onSuccess = () => {} }: RegisterFormProps) => {
                   />
 
                   <Input
-                     label='Name'
-                     error={formState.errors['name']}
-                     registration={register('name')}
-                  />
-
-                  <Input
                      label='Password'
                      type='password'
                      error={formState.errors['password']}
                      registration={register('password')}
                   />
 
-                  <Button type='submit' isLoading={mutation.loading}>
-                     Create account
+                  <Button
+                     type='submit'
+                     isLoading={mutation.loading}
+                     margin={20}
+                  >
+                     Login
                   </Button>
                </>
             )
