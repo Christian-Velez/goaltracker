@@ -3,6 +3,7 @@ import { ProjectsList } from '../components/ProjectsList'
 import { StoreProvider } from '../store'
 import { CreateProject } from '../components/CreateProject'
 import { UpdateProject } from '../components/UpdateProject'
+import { DeleteProject } from '@/features/projects/components/DeleteProject'
 
 export const Projects = () => {
    return (
@@ -12,6 +13,7 @@ export const Projects = () => {
 
             <CreateProject />
             <UpdateProject />
+            <DeleteProject />
 
             <ProjectsList />
          </VStack>

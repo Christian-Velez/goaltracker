@@ -3,48 +3,73 @@ import { useProjects } from '@/features/projects/api/getProjects'
 import { RawProject } from '@/features/projects/types'
 import {
    Badge,
-   HStack,
+   Grid,
+   GridItem,
    IconButton,
    Text,
    useColorModeValue,
    VStack,
 } from '@chakra-ui/react'
-import { AiFillEdit } from 'react-icons/ai'
-import { useProjectsContext } from '../store'
+import { AiFillDelete, AiFillEdit } from 'react-icons/ai'
+import { useProjectsModal } from '../store'
 
 const ProjectItem = ({ project }: { project: RawProject }) => {
-   const { openEditModal } = useProjectsContext()
+   const { openModal } = useProjectsModal()
 
    return (
-      <HStack
+      <Grid
          w='full'
          borderWidth='1px'
          borderStyle='solid'
          borderColor={useColorModeValue('blackAlpha.200', 'whiteAlpha.200')}
          borderRadius='sm'
-         padding={10}
-         justify='space-between'
+         padding={{
+            base: 6,
+            md: 10,
+         }}
+         templateColumns='auto min(93px)'
+         gap={5}
+         justifyContent='space-between'
          textAlign='start'
       >
-         <VStack alignItems='flex-start'>
-            <Text fontWeight='bold'>{project.title}</Text>
-            <Badge
-               colorScheme={project.color}
-               display={{ base: 'none', md: 'inline-block' }}
-            >
-               {project.daysAchieved}{' '}
-               {project.daysAchieved === 1 ? 'day' : 'days'} achieved
-            </Badge>
-         </VStack>
+         <GridItem>
+            <VStack alignItems='flex-start'>
+               <Text
+                  fontWeight='bold'
+                  noOfLines={2}
+                  maxW={{ base: '30vw', md: '50vw' }}
+               >
+                  {project.title}
+               </Text>
+               <Badge
+                  colorScheme={project.color}
+                  display={{ base: 'none', md: 'inline-block' }}
+               >
+                  {project.daysAchieved}{' '}
+                  {project.daysAchieved === 1 ? 'day' : 'days'} achieved
+               </Badge>
+            </VStack>
+         </GridItem>
 
-         <IconButton
-            aria-label='Edit'
-            icon={<AiFillEdit />}
-            variant={useColorModeValue('ghost', 'solid')}
-            colorScheme={useColorModeValue('twitter', 'gray')}
-            onClick={() => openEditModal(project)}
-         />
-      </HStack>
+         <GridItem>
+            <IconButton
+               aria-label='Edit'
+               icon={<AiFillEdit />}
+               variant={useColorModeValue('ghost', 'solid')}
+               colorScheme={useColorModeValue('twitter', 'gray')}
+               onClick={() => openModal('edit', project)}
+            />
+
+            <IconButton
+               aria-label='Delete'
+               icon={<AiFillDelete />}
+               variant={useColorModeValue('ghost', 'solid')}
+               colorScheme={useColorModeValue('red', 'gray')}
+               onClick={() => openModal('delete', project)}
+               ml={3}
+            />
+         </GridItem>
+      </Grid>
    )
 }
 

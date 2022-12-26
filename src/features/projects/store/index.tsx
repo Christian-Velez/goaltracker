@@ -1,42 +1,48 @@
 import { createContext, useContext, useState, useCallback } from 'react'
 import { RawProject } from '../types'
 
+type ModalType = 'edit' | 'delete'
+
 type StoreProviderProps = {
    children: React.ReactNode
 }
 
 type ProjectContextData = {
-   isEditModalOpen: boolean
-   openEditModal: (data: RawProject) => void
-   closeEditModal: () => void
+   isOpen: boolean
+   type: ModalType
+   openModal: (type: ModalType, data: RawProject) => void
+   closeModal: () => void
    data?: RawProject
 }
 
 const ProjectsContext = createContext<ProjectContextData | null>(null)
 
-export const useProjectsContext = () => {
+export const useProjectsModal = () => {
    return useContext(ProjectsContext) as ProjectContextData
 }
 
 export const StoreProvider = ({ children }: StoreProviderProps) => {
    const [data, setData] = useState<RawProject>()
-   const [isEditModalOpen, setEditModalOpen] = useState(false)
+   const [type, setType] = useState<ModalType>('edit')
+   const [isOpen, setIsOpen] = useState(false)
 
-   const closeEditModal = useCallback(() => {
-      setEditModalOpen(false)
+   const closeModal = useCallback(() => {
+      setIsOpen(false)
    }, [])
 
-   const openEditModal = useCallback((data: RawProject) => {
+   const openModal = useCallback((type: ModalType, data: RawProject) => {
+      setType(type)
       setData(data)
-      setEditModalOpen(true)
+      setIsOpen(true)
    }, [])
 
    return (
       <ProjectsContext.Provider
          value={{
-            isEditModalOpen,
-            openEditModal,
-            closeEditModal,
+            isOpen,
+            type,
+            openModal,
+            closeModal,
             data,
          }}
       >

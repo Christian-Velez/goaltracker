@@ -3,12 +3,12 @@ import { Modal } from '@/components/Modal'
 import { Button } from '@chakra-ui/react'
 import { useUpdateProject } from '../api/updateProject'
 import { ProjectForm, ProjectFormData } from './ProjectForm'
-import { useProjectsContext } from '../store'
+import { useProjectsModal } from '../store'
 
 export const UpdateProject = () => {
    const mutation = useUpdateProject()
    const [color, setColor] = useState('pink')
-   const { closeEditModal, isEditModalOpen, data } = useProjectsContext()
+   const { closeModal, isOpen, type, data } = useProjectsModal()
 
    function onSubmit(formData: ProjectFormData) {
       mutation.updateProject({
@@ -27,8 +27,8 @@ export const UpdateProject = () => {
    return (
       <Modal
          control={{
-            isOpen: isEditModalOpen,
-            onClose: closeEditModal,
+            isOpen: isOpen && type === 'edit',
+            onClose: closeModal,
          }}
          isDone={mutation.completed}
          title='Edit project'
