@@ -18,7 +18,7 @@ export const privateRoutes = [
          {
             path: '',
             element: <Projects />,
-         }
+         },
       ],
    },
    {

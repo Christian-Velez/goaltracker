@@ -48,7 +48,7 @@ const LogoutButton = () => {
       <Button
          variant='link'
          onClick={logout}
-         color={useColorModeValue('#3d7aed', 'pink.300')}
+         color={useColorModeValue('#3d7aed', 'orange.300')}
       >
          Logout
       </Button>

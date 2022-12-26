@@ -9,15 +9,12 @@ const ProjectItem = ({ project }: { project: Project }) => {
          w='full'
          borderWidth='1px'
          borderStyle='solid'
-         borderColor={useColorModeValue('gray.200', 'orange.200')}
+         borderColor={useColorModeValue('gray.200', `${project.color}.200`)}
          borderRadius='sm'
          padding={10}
-
          justify='space-between'
       >
          <Text>{project.title}</Text>
-
-
       </HStack>
    )
 }
