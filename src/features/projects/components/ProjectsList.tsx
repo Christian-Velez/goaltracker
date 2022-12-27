@@ -1,97 +1,74 @@
 import { Skeleton } from '@/components/Skeleton'
 import { useProjects } from '@/features/projects/api/getProjects'
-import { RawProject } from '@/features/projects/types'
+import { ProjectItem } from '@/features/projects/components/ProjectItem'
+import { SearchIcon } from '@chakra-ui/icons'
 import {
-   Badge,
+   Box,
    Grid,
    GridItem,
-   IconButton,
+   Input,
+   InputGroup,
+   InputLeftElement,
    Text,
    useColorModeValue,
-   VStack,
 } from '@chakra-ui/react'
-import { AiFillDelete, AiFillEdit } from 'react-icons/ai'
-import { useNavigate } from 'react-router-dom'
-import { useProjectsModal } from '../store'
+import { useMemo, useState } from 'react'
 
-const ProjectItem = ({ project }: { project: RawProject }) => {
-   const navigate = useNavigate()
-   const { openModal } = useProjectsModal()
+export const ProjectsList = () => {
+   const borderColor = useColorModeValue('blackAlpha.200', 'whiteAlpha.200')
+   const { projects, loading } = useProjects()
+   const [text, setText] = useState('')
 
-   function viewProject() {
-      navigate(`/app/project/${project.id}`)
-   }
+   const filteredProjects = useMemo(() => {
+      if (!text) return projects
+
+      return projects?.filter((project) =>
+         project.title.toLowerCase().includes(text.toLowerCase())
+      )
+   }, [text, projects])
+
+   if (loading) return <Skeleton number={10} />
 
    return (
       <Grid
          w='full'
+         gap={5}
+         pt={10}
+         px={3}
          borderWidth='1px'
          borderStyle='solid'
-         borderColor={useColorModeValue('blackAlpha.200', 'whiteAlpha.200')}
+         borderColor={borderColor}
          borderRadius='sm'
-         padding={{
-            base: 6,
-            md: 10,
-         }}
-         templateColumns='auto min(93px)'
-         gap={5}
-         justifyContent='space-between'
-         textAlign='start'
-         onClick={viewProject}
+         minH='400px'
+         alignContent='start'
       >
-         <GridItem>
-            <VStack alignItems='flex-start'>
-               <Text
-                  fontWeight='bold'
-                  noOfLines={2}
-                  maxW={{ base: '30vw', md: '50vw' }}
-               >
-                  {project.title}
-               </Text>
-               <Badge
-                  colorScheme={project.color}
-                  display={{ base: 'none', md: 'inline-block' }}
-               >
-                  {project.daysAchieved}{' '}
-                  {project.daysAchieved === 1 ? 'day' : 'days'} achieved
-               </Badge>
-            </VStack>
-         </GridItem>
+         <Box px={5}>
+            <InputGroup>
+               <InputLeftElement
+                  pointerEvents='none'
+                  children={<SearchIcon color='gray.300' />}
+               />
+               <Input
+                  value={text}
+                  onChange={(e) => setText(e.target.value)}
+                  placeholder='Search by title'
+               />
+            </InputGroup>
+         </Box>
 
-         <GridItem>
-            <IconButton
-               aria-label='Edit'
-               icon={<AiFillEdit />}
-               variant={useColorModeValue('ghost', 'solid')}
-               colorScheme={useColorModeValue('twitter', 'gray')}
-               onClick={() => openModal('edit', project)}
-            />
-
-            <IconButton
-               aria-label='Delete'
-               icon={<AiFillDelete />}
-               variant={useColorModeValue('ghost', 'solid')}
-               colorScheme={useColorModeValue('red', 'gray')}
-               onClick={() => openModal('delete', project)}
-               ml={3}
-            />
-         </GridItem>
-      </Grid>
-   )
-}
-
-export const ProjectsList = () => {
-   const { projects, loading } = useProjects()
-
-   if (loading) return <Skeleton number={10} />
-
-   if (!projects?.length) return <Text>No projects</Text>
-
-   return (
-      <Grid w='full' gap={5}>
-         {projects.map((project) => (
-            <ProjectItem key={project.id} project={project} />
-         ))}
+         {filteredProjects?.length ? (
+            filteredProjects.map((project, i) => (
+               <ProjectItem
+                  key={project.id}
+                  project={project}
+                  lastItem={i === filteredProjects.length - 1}
+               />
+            ))
+         ) : (
+            <GridItem pt={20}>
+               <Text>No projects found</Text>
+            </GridItem>
+         )}
       </Grid>
    )
 }
