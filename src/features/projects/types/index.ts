@@ -1,3 +1,4 @@
+import { Status } from '@/features/status'
 import { BaseEntity } from '@/types'
 
 export const RawProjectTypeDef = `
@@ -15,11 +16,6 @@ export const ProjectTypeDef = `
       value
    }
 `
-
-export type Status = {
-   date: number
-   value?: number | null
-} & BaseEntity
 
 export type RawProject = {
    title: string

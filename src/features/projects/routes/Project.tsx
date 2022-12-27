@@ -5,13 +5,15 @@ import { useProject } from '@/features/projects/api/getProject'
 import { ProjectHeader } from '@/features/projects/components/ProjectHeader'
 import { DaysAchievedLabel } from '@/features/projects/components/ProjectItem'
 import { formatStatusList } from '@/features/projects/utils'
+import { useStatus } from '@/features/status'
 import { Container, VStack } from '@chakra-ui/react'
 import { useMemo } from 'react'
-import { useParams } from 'react-router-dom'
+import { Navigate, useParams } from 'react-router-dom'
 
 export const Project = () => {
+   const statusMutation = useStatus()
    const { projectId } = useParams()
-   const { project, loading } = useProject({ projectId })
+   const { project, loading, error } = useProject({ projectId })
    const statusList = useMemo(
       () => formatStatusList(project?.statusList),
       [project]
@@ -21,14 +23,25 @@ export const Project = () => {
       return statusList.includes(dateToString(date))
    }
 
-   function onDayClick(date: Date) {}
+   function onDayClick(date: Date) {
+      statusMutation.update({
+         variables: {
+            projectId,
+            date,
+         },
+      })
+   }
 
-   if (loading || !project) {
+   if (loading) {
       return (
          <Container maxW='container.md' pt={40}>
             <Loading text='Loading project...' />
          </Container>
       )
+   }
+
+   if (error || !project) {
+      return <Navigate to='/app' />
    }
 
    return (
