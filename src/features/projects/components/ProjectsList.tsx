@@ -32,7 +32,6 @@ export const ProjectsList = () => {
    return (
       <Grid
          w='full'
-         gap={5}
          pt={10}
          px={3}
          borderWidth='1px'

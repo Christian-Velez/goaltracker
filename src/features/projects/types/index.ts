@@ -16,7 +16,7 @@ export const ProjectTypeDef = `
    }
 `
 
-type Status = {
+export type Status = {
    date: number
    value?: number | null
 } & BaseEntity

@@ -1,11 +1,11 @@
 import { useProjectsModal } from '@/features/projects/store'
 import { RawProject } from '@/features/projects/types'
 import {
-   Badge,
    Box,
    Grid,
    GridItem,
    IconButton,
+   Tag,
    Text,
    useColorModeValue,
    useMediaQuery,
@@ -27,9 +27,9 @@ export const DaysAchievedLabel = ({
    daysAchieved: number
 }) => {
    return (
-      <Badge colorScheme={color}>
+      <Tag colorScheme={color}>
          {daysAchieved} {daysAchieved === 1 ? 'day' : 'days'} achieved
-      </Badge>
+      </Tag>
    )
 }
 
