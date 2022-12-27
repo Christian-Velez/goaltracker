@@ -6,10 +6,9 @@ const { Projects } = lazyImport(() => import('@/features/projects'), 'Projects')
 const { Project } = lazyImport(() => import('@/features/projects'), 'Project')
 
 const App = () => {
-   const { pathname} = useLocation()
+   const { pathname } = useLocation()
 
-   if(pathname.includes('project'))
-      return <Outlet />
+   if (pathname.includes('project')) return <Outlet />
 
    return (
       <Layout>

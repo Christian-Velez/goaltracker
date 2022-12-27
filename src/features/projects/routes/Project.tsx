@@ -2,22 +2,14 @@ import { Calendar } from '@/components/Calendar'
 import { dateToString } from '@/components/Calendar/utils'
 import { Loading } from '@/components/Loading'
 import { useProject } from '@/features/projects/api/getProject'
+import { ProjectHeader } from '@/features/projects/components/ProjectHeader'
 import { DaysAchievedLabel } from '@/features/projects/components/ProjectItem'
 import { formatStatusList } from '@/features/projects/utils'
-import { ArrowBackIcon } from '@chakra-ui/icons'
-import {
-   Box,
-   Container,
-   Heading,
-   HStack,
-   IconButton,
-   VStack,
-} from '@chakra-ui/react'
+import { Container, VStack } from '@chakra-ui/react'
 import { useMemo } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 
 export const Project = () => {
-   const navigate = useNavigate()
    const { projectId } = useParams()
    const { project, loading } = useProject({ projectId })
    const statusList = useMemo(
@@ -25,9 +17,11 @@ export const Project = () => {
       [project]
    )
 
-   const isDayAchieved = (date: Date) => {
+   function isDayAchieved(date: Date) {
       return statusList.includes(dateToString(date))
    }
+
+   function onDayClick(date: Date) {}
 
    if (loading || !project) {
       return (
@@ -40,27 +34,7 @@ export const Project = () => {
    return (
       <Container maxW='container.md'>
          <VStack py={10} spacing={{ base: 5, md: 10 }} w='full'>
-            <HStack w='full' justifyContent='space-between' textAlign='center'>
-               <Box flex={1}>
-                  <IconButton
-                     aria-label='Home'
-                     icon={<ArrowBackIcon />}
-                     onClick={() => navigate('/')}
-                     variant='ghost'
-                  />
-               </Box>
-
-               <Heading
-                  fontSize={{
-                     base: 'xl',
-                     md: '3xl',
-                  }}
-               >
-                  {project?.title}
-               </Heading>
-
-               <Box flex={1} />
-            </HStack>
+            <ProjectHeader>{project.title}</ProjectHeader>
 
             <DaysAchievedLabel
                daysAchieved={project!.daysAchieved}
@@ -70,7 +44,7 @@ export const Project = () => {
             <Calendar
                colorScheme={project.color}
                isDayMarked={isDayAchieved}
-               //onDayClick={(date) => alert(date.getTime())}
+               onDayClick={onDayClick}
             />
          </VStack>
       </Container>
