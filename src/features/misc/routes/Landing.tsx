@@ -1,10 +1,10 @@
-import { MainLayout } from '@/components/Layout'
+import { LayoutContent } from '@/components/Layout'
 import { Link } from 'react-router-dom'
 import { Button, Heading, HStack, Text } from '@chakra-ui/react'
 
 export const Landing = () => {
    return (
-      <MainLayout
+      <LayoutContent
          minH='85vh'
          placeContent='center'
          placeItems='center'
@@ -28,6 +28,6 @@ export const Landing = () => {
                <Button variant='outline'>Register</Button>
             </Link>
          </HStack>
-      </MainLayout>
+      </LayoutContent>
    )
 }

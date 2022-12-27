@@ -1,5 +1,5 @@
 import { LAYOUT_MAX_WIDTH } from '@/components/Layout'
-import { MainLayout } from '@/components/Layout/LayoutContent'
+import { LayoutContent } from '@/components/Layout/LayoutContent'
 import { Navbar } from '@/components/Navbar'
 import { Container } from '@chakra-ui/react'
 
@@ -11,7 +11,7 @@ export const Layout = ({ children }: LayoutProps) => {
    return (
       <Container py={5} maxW={LAYOUT_MAX_WIDTH}>
          <Navbar />
-         <MainLayout>{children}</MainLayout>
+         <LayoutContent>{children}</LayoutContent>
       </Container>
    )
 }

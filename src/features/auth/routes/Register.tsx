@@ -2,13 +2,13 @@ import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { Heading, Link as ChakraLink, Text } from '@chakra-ui/react'
 import { RegisterForm } from '../components/RegisterForm'
-import { MainLayout } from '@/components/Layout'
+import { LayoutContent } from '@/components/Layout'
 
 export const Register = () => {
    const navigate = useNavigate()
 
    return (
-      <MainLayout>
+      <LayoutContent>
          <Heading fontSize='2xl'>Register</Heading>
 
          <RegisterForm
@@ -23,6 +23,6 @@ export const Register = () => {
                Sign in
             </ChakraLink>
          </Text>
-      </MainLayout>
+      </LayoutContent>
    )
 }
