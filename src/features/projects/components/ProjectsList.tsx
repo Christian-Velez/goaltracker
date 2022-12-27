@@ -42,7 +42,7 @@ export const ProjectsList = () => {
          minH='400px'
          alignContent='start'
       >
-         <Box px={5}>
+         <Box px={5} mb={5}>
             <InputGroup>
                <InputLeftElement
                   pointerEvents='none'

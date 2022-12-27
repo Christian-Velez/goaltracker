@@ -2,6 +2,7 @@ import { useProjectsModal } from '@/features/projects/store'
 import { RawProject } from '@/features/projects/types'
 import {
    Badge,
+   Box,
    Grid,
    GridItem,
    IconButton,
@@ -16,6 +17,20 @@ import { useNavigate } from 'react-router-dom'
 type ProjectItemProps = {
    project: RawProject
    lastItem: boolean
+}
+
+export const DaysAchievedLabel = ({
+   color,
+   daysAchieved,
+}: {
+   color: string
+   daysAchieved: number
+}) => {
+   return (
+      <Badge colorScheme={color}>
+         {daysAchieved} {daysAchieved === 1 ? 'day' : 'days'} achieved
+      </Badge>
+   )
 }
 
 export const ProjectItem = ({ project, lastItem }: ProjectItemProps) => {
@@ -55,13 +70,12 @@ export const ProjectItem = ({ project, lastItem }: ProjectItemProps) => {
                   {project.title}
                </Text>
 
-               <Badge
-                  colorScheme={project.color}
-                  display={{ base: 'none', md: 'inline-block' }}
-               >
-                  {project.daysAchieved}{' '}
-                  {project.daysAchieved === 1 ? 'day' : 'days'} achieved
-               </Badge>
+               <Box display={{ base: 'none', md: 'inline-block' }}>
+                  <DaysAchievedLabel
+                     daysAchieved={project.daysAchieved}
+                     color={project.color}
+                  />
+               </Box>
             </VStack>
          </GridItem>
 
