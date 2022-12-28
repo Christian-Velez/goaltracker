@@ -1,17 +1,44 @@
-import { Box, Heading, Progress } from '@chakra-ui/react'
+import {
+   Box,
+   Heading,
+   Progress,
+   Text,
+   useColorModeValue,
+} from '@chakra-ui/react'
 
-export const Loading = () => {
+type Size = 'sm' | 'lg'
+type LoadingProps = {
+   text?: string
+   size?: Size
+}
+
+export const Loading = ({
+   text = 'Goal Tracker',
+   size = 'sm',
+}: LoadingProps) => {
    return (
-      <Box
-         h='100vh'
-         w='full'
-         display='grid'
-         placeContent='center'
-         placeItems='center'
-         gap={10}
-      >
-         <Heading>GoalTracker</Heading>
-         <Progress size='xs' colorScheme='purple' w='400px' isIndeterminate />
+      <Box display='grid' gap={10} placeContent='center' placeItems='center'>
+         {size === 'lg' ? (
+            <Heading>{text}</Heading>
+         ) : (
+            <Text fontWeight='semibold'>{text}</Text>
+         )}
+
+         <Progress
+            size='xs'
+            colorScheme={useColorModeValue('purple', 'orange')}
+            w='400px'
+            maxW='80vw'
+            isIndeterminate
+         />
+      </Box>
+   )
+}
+
+export const LoadingScreen = (props: LoadingProps) => {
+   return (
+      <Box h='85vh' w='full' display='grid'>
+         <Loading {...props} size='lg' />
       </Box>
    )
 }

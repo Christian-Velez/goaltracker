@@ -1,16 +1,19 @@
-import { useAuth } from '@/lib/auth'
-import { Button } from '@chakra-ui/react'
-import { Navigate, Outlet } from 'react-router-dom'
+import { Layout } from '@/components/Layout'
+import { lazyImport } from '@/utils/lazyImport'
+import { Navigate, Outlet, useLocation } from 'react-router-dom'
+
+const { Projects } = lazyImport(() => import('@/features/projects'), 'Projects')
+const { Project } = lazyImport(() => import('@/features/projects'), 'Project')
 
 const App = () => {
-   const { user, logout } = useAuth()
+   const { pathname } = useLocation()
+
+   if (pathname.includes('project')) return <Outlet />
 
    return (
-      <div>
-         <pre>{JSON.stringify(user, null, 4)}</pre>
-         <Button onClick={logout}>Logout</Button>
+      <Layout>
          <Outlet />
-      </div>
+      </Layout>
    )
 }
 
@@ -21,7 +24,11 @@ export const privateRoutes = [
       children: [
          {
             path: '',
-            element: <div>Bienvenido a la App</div>,
+            element: <Projects />,
+         },
+         {
+            path: 'project/:projectId',
+            element: <Project />,
          },
       ],
    },

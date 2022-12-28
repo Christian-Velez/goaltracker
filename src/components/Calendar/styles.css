@@ -1,0 +1,16 @@
+.today {
+   width: 0.6rem;
+   height: 0.6rem;
+   border-radius: 100%;
+
+   bottom: -0.5rem;
+   position: absolute;
+}
+
+@media only screen and (max-width: 500px) {
+   .today {
+      width: 0.5rem;
+      height: 0.5rem;
+
+   }
+}
