@@ -11,7 +11,7 @@ export const GET_PROJECT = gql`
    }
 `
 
-type GetProjectQuery = {
+export type GetProjectQuery = {
    getProject: Project
 }
 

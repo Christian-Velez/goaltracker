@@ -15,15 +15,19 @@ export const useCalendarContext = () => {
    return useContext(CalendarContext) as CalendarContextType
 }
 
+type InitialValues = {
+   isDayMarked: IsDayMarked
+}
+
 type CalendarProps = {
    colorScheme: string
-   isDayMarked?: IsDayMarked
+   initialValues?: InitialValues
    onDayClick?: OnDayClick
 }
 
 export const Calendar = ({
    colorScheme,
-   isDayMarked,
+   initialValues,
    onDayClick,
 }: CalendarProps) => {
    const calendar = useCalendar()
@@ -54,7 +58,10 @@ export const Calendar = ({
             textAlign='center'
          >
             <CalendarHeader />
-            <CalendarDays isDayMarked={isDayMarked} onDayClick={onDayClick} />
+            <CalendarDays
+               isDayMarked={initialValues?.isDayMarked}
+               onDayClick={onDayClick}
+            />
          </Grid>
       </CalendarContext.Provider>
    )

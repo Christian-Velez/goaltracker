@@ -4,16 +4,19 @@ import { Loading } from '@/components/Loading'
 import { useProject } from '@/features/projects/api/getProject'
 import { ProjectHeader } from '@/features/projects/components/ProjectHeader'
 import { DaysAchievedLabel } from '@/features/projects/components/ProjectItem'
-import { formatStatusList } from '@/features/projects/utils'
-import { useStatus } from '@/features/status'
+import { formatStatusList, getDateId } from '@/features/projects/utils'
+import { useCreateStatus } from '@/features/status'
+import { useDeleteStatus } from '@/features/status/api/deleteStatus'
 import { Container, VStack } from '@chakra-ui/react'
 import { useMemo } from 'react'
 import { Navigate, useParams } from 'react-router-dom'
 
 export const Project = () => {
-   const statusMutation = useStatus()
    const { projectId } = useParams()
    const { project, loading, error } = useProject({ projectId })
+   const createStatusMutation = useCreateStatus()
+   const deleteStatusMutation = useDeleteStatus()
+
    const statusList = useMemo(
       () => formatStatusList(project?.statusList),
       [project]
@@ -24,10 +27,22 @@ export const Project = () => {
    }
 
    function onDayClick(date: Date) {
-      statusMutation.update({
+      if (createStatusMutation.loading || deleteStatusMutation.loading) return
+
+      if (!isDayAchieved(date)) {
+         createStatusMutation.create({
+            variables: {
+               projectId,
+               date,
+            },
+         })
+         return
+      }
+
+      const id = getDateId(project!.statusList, date)
+      deleteStatusMutation.deleteStatus({
          variables: {
-            projectId,
-            date,
+            id,
          },
       })
    }
@@ -56,8 +71,10 @@ export const Project = () => {
 
             <Calendar
                colorScheme={project.color}
-               isDayMarked={isDayAchieved}
                onDayClick={onDayClick}
+               initialValues={{
+                  isDayMarked: isDayAchieved,
+               }}
             />
          </VStack>
       </Container>

@@ -1,6 +1,7 @@
 import { useCalendarContext } from './Calendar'
 import { Box, GridItem, Text, useColorModeValue } from '@chakra-ui/react'
 import { dateToString, isDateInMonth } from './utils'
+import { useState } from 'react'
 
 export type OnDayClick = (date: Date) => void
 export type IsDayMarked = (date: Date) => boolean | boolean
@@ -12,6 +13,10 @@ type DayProps = {
 }
 
 const CalendarDay = ({ date, onClick, marked }: DayProps) => {
+   const [isDayMarked, setIsDayMarked] = useState(() => {
+      return marked && marked(date)
+   })
+
    const { colorScheme, calendar } = useCalendarContext()
    const isInSelectedMonth = isDateInMonth(date, calendar.month, calendar.year)
 
@@ -30,8 +35,6 @@ const CalendarDay = ({ date, onClick, marked }: DayProps) => {
       `${colorScheme}.300`
    )
 
-   const isDayMarked = marked && marked(date)
-
    return (
       <GridItem
          style={{
@@ -48,6 +51,7 @@ const CalendarDay = ({ date, onClick, marked }: DayProps) => {
          textAlign='center'
          cursor='pointer'
          onClick={() => {
+            setIsDayMarked((prev) => !prev)
             onClick && onClick(date)
          }}
          position='relative'
