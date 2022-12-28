@@ -41,6 +41,8 @@ export const useCreateStatus = () => {
 
             const { status, newCount } = response.data?.createStatus || {}
 
+            if (!status || !newCount) return
+
             store.writeQuery({
                query: GET_PROJECT,
                data: {
