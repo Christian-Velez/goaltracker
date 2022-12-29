@@ -10,6 +10,7 @@ import { User } from '@/features/user'
 import { UserResponse } from '@/features/auth/types'
 import { useGetUser } from '@/features/auth/api/getUser'
 import { LoadingScreen } from '@/components/Loading'
+import { useApolloClient } from '@apollo/client'
 
 type AuthContextType = {
    isAuthenticated: boolean
@@ -23,6 +24,7 @@ type AuthProviderProps = {
 }
 
 const useAuthProvider = () => {
+   const client = useApolloClient()
    const { getUser } = useGetUser()
    const [isLoading, setIsLoading] = useState(true)
    const [user, setUser] = useState<User | null>(null)
@@ -60,6 +62,7 @@ const useAuthProvider = () => {
    function logout() {
       storage.clearToken()
       setUser(null)
+      client.clearStore()
    }
 
    return {
