@@ -27,8 +27,6 @@ export const Project = () => {
    }
 
    function onDayClick(date: Date) {
-      if (createStatusMutation.loading || deleteStatusMutation.loading) return
-
       if (!isDayAchieved(date)) {
          createStatusMutation.create({
             variables: {
