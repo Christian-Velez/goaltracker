@@ -1,6 +1,5 @@
 import { RawProject, RawProjectTypeDef } from '../types'
 import { gql, useMutation, MutationFunctionOptions } from '@apollo/client'
-import { GET_PROJECTS } from './getProjects'
 import { useState } from 'react'
 
 const UPDATE_PROJECT = gql`
@@ -30,11 +29,6 @@ export const useUpdateProject = () => {
    const [update, { loading, error }] = useMutation<UpdateProjectMutation>(
       UPDATE_PROJECT,
       {
-         refetchQueries: [
-            {
-               query: GET_PROJECTS,
-            },
-         ],
          onCompleted: () => setCompleted(true),
       }
    )
