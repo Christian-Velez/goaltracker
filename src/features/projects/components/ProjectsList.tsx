@@ -4,13 +4,12 @@ import { ProjectItem } from '@/features/projects/components/ProjectItem'
 import { SearchIcon } from '@chakra-ui/icons'
 import {
    Box,
-   Grid,
-   GridItem,
    Input,
    InputGroup,
    InputLeftElement,
    Text,
    useColorModeValue,
+   VStack,
 } from '@chakra-ui/react'
 import { useMemo, useState } from 'react'
 
@@ -30,7 +29,7 @@ export const ProjectsList = () => {
    if (loading) return <Skeleton number={10} />
 
    return (
-      <Grid
+      <VStack
          w='full'
          pt={10}
          px={3}
@@ -39,9 +38,9 @@ export const ProjectsList = () => {
          borderColor={borderColor}
          borderRadius='sm'
          minH='400px'
-         alignContent='start'
+         justifyContent='start'
       >
-         <Box px={5} mb={5}>
+         <Box px={5} mb={5} w='full'>
             <InputGroup>
                <InputLeftElement
                   pointerEvents='none'
@@ -64,10 +63,10 @@ export const ProjectsList = () => {
                />
             ))
          ) : (
-            <GridItem pt={20}>
+            <Box pt={20}>
                <Text>No projects found</Text>
-            </GridItem>
+            </Box>
          )}
-      </Grid>
+      </VStack>
    )
 }
