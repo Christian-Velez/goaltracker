@@ -6,10 +6,12 @@ import { useState } from 'react'
 const CREATE_PROJECT = gql`
    mutation createProject(
       $title: String!
+      $description: String
       $color: String!
    ) {
       createProject(
          title: $title
+         description: $description
          color: $color
       ) {
          ${RawProjectTypeDef}

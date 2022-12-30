@@ -1,8 +1,8 @@
 import { extendTheme } from '@chakra-ui/react'
-import { mode } from '@chakra-ui/theme-tools'
+import { mode, StyleFunctionProps } from '@chakra-ui/theme-tools'
 
 const styles = {
-   global: (props: any) => ({
+   global: (props: StyleFunctionProps) => ({
       body: {
          bg: mode('#fbfcf8', '#202023')(props),
       },
@@ -11,7 +11,7 @@ const styles = {
 
 const components = {
    Link: {
-      baseStyle: (props: any) => ({
+      baseStyle: (props: StyleFunctionProps) => ({
          color: mode('#3d7aed', 'pink.300')(props),
          textUnderlineOffset: 3,
       }),

@@ -7,11 +7,13 @@ const UPDATE_PROJECT = gql`
    mutation updateProject(
       $id: ID!
       $title: String!
+      $description: String
       $color: String!
    ) {
       updateProject(
          id: $id
          title: $title
+         description: $description
          color: $color
       ) {
          ${RawProjectTypeDef}
