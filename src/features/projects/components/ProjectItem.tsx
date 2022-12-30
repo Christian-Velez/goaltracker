@@ -70,6 +70,15 @@ export const ProjectItem = ({ project, lastItem }: ProjectItemProps) => {
                   {project.title}
                </Text>
 
+               <Text
+                  fontSize='sm'
+                  textAlign='justify'
+                  color={useColorModeValue('blackAlpha.600', 'whiteAlpha.600')}
+                  noOfLines={{ base: 3, md: 5 }}
+               >
+                  {project.description}
+               </Text>
+
                <Box display={{ base: 'none', md: 'inline-block' }}>
                   <DaysAchievedLabel
                      daysAchieved={project.daysAchieved}

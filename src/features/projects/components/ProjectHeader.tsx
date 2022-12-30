@@ -11,7 +11,7 @@ export const ProjectHeader = ({
 
    return (
       <HStack w='full' justifyContent='space-between' textAlign='center'>
-         <Box flex={1}>
+         <Box>
             <IconButton
                aria-label='Home'
                icon={<ArrowBackIcon />}
@@ -29,7 +29,7 @@ export const ProjectHeader = ({
             {projectTitle}
          </Heading>
 
-         <Box flex={1} />
+         <Box />
       </HStack>
    )
 }

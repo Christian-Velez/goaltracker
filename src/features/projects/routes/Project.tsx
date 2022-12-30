@@ -7,7 +7,7 @@ import { DaysAchievedLabel } from '@/features/projects/components/ProjectItem'
 import { formatStatusList, getDateId } from '@/features/projects/utils'
 import { useCreateStatus } from '@/features/status'
 import { useDeleteStatus } from '@/features/status/api/deleteStatus'
-import { Container, VStack } from '@chakra-ui/react'
+import { Container, Text, useColorModeValue, VStack } from '@chakra-ui/react'
 import { useMemo } from 'react'
 import { Navigate, useParams } from 'react-router-dom'
 
@@ -16,6 +16,7 @@ export const Project = () => {
    const { project, loading, error } = useProject({ projectId })
    const createStatusMutation = useCreateStatus()
    const deleteStatusMutation = useDeleteStatus()
+   const descColor = useColorModeValue('blackAlpha.600', 'whiteAlpha.600')
 
    const statusList = useMemo(
       () => formatStatusList(project?.statusList),
@@ -61,6 +62,9 @@ export const Project = () => {
       <Container maxW='container.md'>
          <VStack py={10} spacing={{ base: 5, md: 10 }} w='full'>
             <ProjectHeader>{project.title}</ProjectHeader>
+            <Text color={descColor} textAlign='justify'>
+               {project.description}
+            </Text>
 
             <DaysAchievedLabel
                daysAchieved={project!.daysAchieved}
