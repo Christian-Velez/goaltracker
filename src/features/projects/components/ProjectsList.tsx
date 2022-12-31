@@ -32,15 +32,26 @@ export const ProjectsList = () => {
       <VStack
          w='full'
          pt={10}
-         px={3}
-         borderWidth='1px'
+         px={{ md: 3 }}
+         borderWidth={{ md: '1px' }}
          borderStyle='solid'
          borderColor={borderColor}
          borderRadius='sm'
          minH='400px'
          justifyContent='start'
       >
-         <Box px={5} mb={5} w='full'>
+         <Box
+            mb={5}
+            w='full'
+            paddingX={{
+               base: 0,
+               md: 5,
+            }}
+            paddingY={{
+               base: 3,
+               md: 5,
+            }}
+         >
             <InputGroup>
                <InputLeftElement
                   pointerEvents='none'

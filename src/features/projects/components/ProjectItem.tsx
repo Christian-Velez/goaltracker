@@ -92,9 +92,13 @@ export const ProjectItem = ({ project, lastItem }: ProjectItemProps) => {
          borderBottom={lastItem ? '0' : '1px'}
          borderStyle='solid'
          borderColor={useColorModeValue('blackAlpha.200', 'whiteAlpha.200')}
-         padding={{
+         paddingX={{
+            base: 0,
+            md: 5,
+         }}
+         paddingY={{
             base: 3,
-            md: 10,
+            md: 8,
          }}
          spacing={5}
          alignItems='flex-start'

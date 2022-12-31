@@ -57,12 +57,7 @@ const LogoutButton = () => {
 
 export const Navbar = () => {
    return (
-      <Box
-         as='nav'
-         w='100%'
-         bg={useColorModeValue('#ffffff40', '#20202380')}
-         zIndex={2}
-      >
+      <Box as='nav' w='100%' zIndex={2}>
          <Flex
             display='flex'
             maxW={LAYOUT_MAX_WIDTH}
