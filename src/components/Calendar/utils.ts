@@ -1,6 +1,6 @@
 import { Dictionary } from '@/types'
 
-const CALENDAR_DISPLAYED_DAYS = 35
+const SUNDAY = 6
 
 export const MONTHS_LABELS: Dictionary<string> = {
    0: 'January',
@@ -28,7 +28,7 @@ export const isDateInMonth = (date: Date, month: number, year: number) => {
 export const getCurrentDateInfo = () => {
    const currentDay = new Date()
    const currentMonth = currentDay.getMonth()
-   const currentYear = currentDay.getUTCFullYear()
+   const currentYear = currentDay.getFullYear()
 
    return {
       currentDay,
@@ -84,17 +84,20 @@ export const getCurrentMonthDates = (month: number, year: number) => {
    }
 
    // Prev month days
-   if (currentMonth.firstDateDayOfWeek !== 6) {
+   if (currentMonth.firstDateDayOfWeek !== SUNDAY) {
       for (let i = 1; i <= currentMonth.firstDateDayOfWeek; i++) {
          days.unshift(new Date(year, month - 1, prevMonth.nDays - i))
       }
    }
 
    // Next month days
-   const daysLeft = CALENDAR_DISPLAYED_DAYS - days.length
+   if (days.length % 7 !== 0) {
+      const weeksDisplayed = Math.floor(days.length / 7) + 1
+      const daysLeft = weeksDisplayed * 7 - days.length
 
-   for (let i = 1; i <= daysLeft; i++) {
-      days.push(new Date(nextY, nextMonthN, i))
+      for (let i = 1; i <= daysLeft; i++) {
+         days.push(new Date(nextY, nextMonthN, i))
+      }
    }
 
    return days

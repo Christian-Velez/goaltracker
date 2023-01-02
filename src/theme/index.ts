@@ -35,6 +35,8 @@ const theme = extendTheme({
    config,
    components,
    styles,
+
+   // TODO: Add custom fonts
 })
 
 export default theme

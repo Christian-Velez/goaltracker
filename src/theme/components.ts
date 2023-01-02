@@ -47,10 +47,4 @@ export const components = {
    },
    Menu,
    Modal,
-
-   Skeleton: {
-      baseStyle: {
-         bgColor: 'red.50',
-      },
-   },
 }
