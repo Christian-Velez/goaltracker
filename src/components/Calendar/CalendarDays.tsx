@@ -1,7 +1,8 @@
+import { useEffect, useState } from 'react'
 import { useCalendarContext } from './Calendar'
 import { Box, GridItem, Text, useColorModeValue } from '@chakra-ui/react'
 import { dateToString, isDateInMonth } from './utils'
-import { useEffect, useState } from 'react'
+import { motion } from 'framer-motion'
 
 export type OnDayClick = (date: Date) => void
 export type IsDayMarked = (date: Date) => boolean | boolean
@@ -10,6 +11,19 @@ type DayProps = {
    date: Date
    marked?: IsDayMarked
    onClick?: OnDayClick
+}
+
+const daysVariants = {
+   initial: {
+      scale: 0.3,
+   },
+
+   show: {
+      scale: 1,
+      transition: {
+         duration: 0.1,
+      },
+   },
 }
 
 const CalendarDay = ({ date, onClick, marked }: DayProps) => {
@@ -42,6 +56,14 @@ const CalendarDay = ({ date, onClick, marked }: DayProps) => {
 
    return (
       <GridItem
+         as={motion.div}
+         initial='initial'
+         animate='show'
+         whileTap={{
+            scale: 1.2,
+         }}
+         variants={daysVariants}
+         key={date.toString()}
          style={{
             aspectRatio: '1 / 1',
          }}
@@ -62,7 +84,7 @@ const CalendarDay = ({ date, onClick, marked }: DayProps) => {
          position='relative'
       >
          {isDayToday && <Box className='today' bgColor={todayMarkColor} />}
-         <Text>{date.getDate()}</Text>
+         <Text>{date?.getDate() ?? ''}</Text>
       </GridItem>
    )
 }
@@ -79,14 +101,18 @@ export const CalendarDays = ({
    const { calendar } = useCalendarContext()
    return (
       <>
-         {calendar.monthDates.map((date, i) => (
-            <CalendarDay
-               key={i}
-               date={date}
-               onClick={onDayClick}
-               marked={isDayMarked}
-            />
-         ))}
+         {calendar.monthDates.map((date, i) => {
+            if (!date) return <div key={i} />
+
+            return (
+               <CalendarDay
+                  key={i}
+                  date={date}
+                  onClick={onDayClick}
+                  marked={isDayMarked}
+               />
+            )
+         })}
       </>
    )
 }

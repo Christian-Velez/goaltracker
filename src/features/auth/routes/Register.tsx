@@ -8,7 +8,14 @@ export const Register = () => {
    const navigate = useNavigate()
 
    return (
-      <LayoutContent>
+      <LayoutContent
+         minH='85vh'
+         display='flex'
+         flexDir='column'
+         justifyContent='center'
+         w='full'
+         gap={20}
+      >
          <Heading fontSize='2xl'>Register</Heading>
 
          <RegisterForm

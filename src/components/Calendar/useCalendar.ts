@@ -11,7 +11,7 @@ export type UseCalendarInfo = {
    currentDay: Date
    month: number
    monthLabel: string
-   monthDates: Date[]
+   monthDates: Array<Date | null>
    year: number
    prevMonth: () => void
    nextMonth: () => void

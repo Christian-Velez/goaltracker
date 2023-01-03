@@ -64,18 +64,11 @@ const getMonthFirstDayOfWeek = (month: number, year: number) =>
    new Date(year, month).getDay()
 
 export const getCurrentMonthDates = (month: number, year: number) => {
-   const days: Date[] = []
+   const days: Array<Date | null> = []
 
    const currentMonth = {
       firstDateDayOfWeek: getMonthFirstDayOfWeek(month, year),
       nDays: getDaysInMonth(month, year),
-   }
-
-   const { prevMontN, prevY } = getPrev(month, year)
-   const { nextMonthN, nextY } = getNext(month, year)
-
-   const prevMonth = {
-      nDays: getDaysInMonth(prevMontN, prevY),
    }
 
    // Current month days
@@ -86,7 +79,7 @@ export const getCurrentMonthDates = (month: number, year: number) => {
    // Prev month days
    if (currentMonth.firstDateDayOfWeek !== SUNDAY) {
       for (let i = 1; i <= currentMonth.firstDateDayOfWeek; i++) {
-         days.unshift(new Date(year, month - 1, prevMonth.nDays - i))
+         days.unshift(null)
       }
    }
 
@@ -96,7 +89,7 @@ export const getCurrentMonthDates = (month: number, year: number) => {
       const daysLeft = weeksDisplayed * 7 - days.length
 
       for (let i = 1; i <= daysLeft; i++) {
-         days.push(new Date(nextY, nextMonthN, i))
+         days.push(null)
       }
    }
 

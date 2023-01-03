@@ -1,6 +1,5 @@
-import { Skeleton } from '@/components/Skeleton'
 import { useProjects } from '@/features/projects/api/getProjects'
-import { ProjectItem } from '@/features/projects/components/ProjectItem'
+import { ProjectItem } from '@/features/projects/components/ProjectItem/ProjectItem'
 import { SearchIcon } from '@chakra-ui/icons'
 import {
    Box,
@@ -11,6 +10,7 @@ import {
    useColorModeValue,
    VStack,
 } from '@chakra-ui/react'
+import { AnimatePresence } from 'framer-motion'
 import { useMemo, useState } from 'react'
 
 export const ProjectsList = () => {
@@ -25,8 +25,6 @@ export const ProjectsList = () => {
          project.title.toLowerCase().includes(text.toLowerCase())
       )
    }, [text, projects])
-
-   if (loading) return <Skeleton number={10} />
 
    return (
       <VStack
@@ -66,16 +64,21 @@ export const ProjectsList = () => {
          </Box>
 
          {filteredProjects?.length ? (
-            filteredProjects.map((project, i) => (
-               <ProjectItem
-                  key={project.id}
-                  project={project}
-                  lastItem={i === filteredProjects.length - 1}
-               />
-            ))
+            <AnimatePresence>
+               {filteredProjects.map((project, i) => (
+                  <ProjectItem
+                     index={i}
+                     key={project.id}
+                     project={project}
+                     lastItem={i === filteredProjects.length - 1}
+                  />
+               ))}
+            </AnimatePresence>
          ) : (
             <Box pt={20}>
-               <Text>No projects found</Text>
+               <Text>
+                  {loading ? 'Loading projects...' : 'No projects found'}
+               </Text>
             </Box>
          )}
       </VStack>

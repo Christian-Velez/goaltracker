@@ -5,7 +5,14 @@ import { LayoutContent } from '@/components/Layout'
 
 export const Login = () => {
    return (
-      <LayoutContent>
+      <LayoutContent
+         minH='85vh'
+         display='flex'
+         flexDir='column'
+         justifyContent='center'
+         w='full'
+         gap={20}
+      >
          <Heading fontSize='2xl'>Log in</Heading>
          <LoginForm />
 
