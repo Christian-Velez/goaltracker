@@ -90,6 +90,7 @@ export const ProjectItem = ({ project, index, lastItem }: ProjectItemProps) => {
             textAlign='justify'
             color={useColorModeValue('blackAlpha.600', 'whiteAlpha.600')}
             noOfLines={{ base: 3, md: 5 }}
+            wordBreak='break-all'
          >
             {project.description}
          </Text>

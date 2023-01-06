@@ -62,7 +62,12 @@ export const Project = () => {
       <Container maxW='container.md'>
          <VStack py={10} spacing={{ base: 5, md: 10 }} w='full'>
             <ProjectHeader>{project.title}</ProjectHeader>
-            <Text color={descColor} textAlign='justify'>
+            <Text
+               color={descColor}
+               textAlign='justify'
+               wordBreak='break-all'
+               noOfLines={5}
+            >
                {project.description}
             </Text>
 
