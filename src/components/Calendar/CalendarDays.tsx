@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useCalendarContext } from './Calendar'
 import { Box, GridItem, Text, useColorModeValue } from '@chakra-ui/react'
-import { dateToString, isDateInMonth } from './utils'
+import { dateToString, getMonthFirstDayOfWeek, isDateInMonth } from './utils'
 import { motion } from 'framer-motion'
 
 export type OnDayClick = (date: Date) => void
@@ -11,6 +11,7 @@ type DayProps = {
    date: Date
    marked?: IsDayMarked
    onClick?: OnDayClick
+   index: number
 }
 
 const daysVariants = {
@@ -26,8 +27,13 @@ const daysVariants = {
    },
 }
 
-const CalendarDay = ({ date, onClick, marked }: DayProps) => {
+const CalendarDay = ({ date, onClick, marked, index }: DayProps) => {
    const { colorScheme, calendar } = useCalendarContext()
+   const monthFirstDayOfWeek = getMonthFirstDayOfWeek(
+      calendar.month,
+      calendar.year
+   )
+
    const [isDayMarked, setIsDayMarked] = useState(() => {
       return marked && marked(date)
    })
@@ -82,6 +88,7 @@ const CalendarDay = ({ date, onClick, marked }: DayProps) => {
             onClick && onClick(date)
          }}
          position='relative'
+         gridColumn={index === 0 ? `${monthFirstDayOfWeek + 1}/ span 1` : ''}
       >
          {isDayToday && <Box className='today' bgColor={todayMarkColor} />}
          <Text>{date?.getDate() ?? ''}</Text>
@@ -99,6 +106,7 @@ export const CalendarDays = ({
    isDayMarked,
 }: CalendarDaysProps) => {
    const { calendar } = useCalendarContext()
+
    return (
       <>
          {calendar.monthDates.map((date, i) => {
@@ -106,6 +114,7 @@ export const CalendarDays = ({
 
             return (
                <CalendarDay
+                  index={i}
                   key={i}
                   date={date}
                   onClick={onDayClick}

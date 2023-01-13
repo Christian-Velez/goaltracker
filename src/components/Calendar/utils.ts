@@ -1,7 +1,5 @@
 import { Dictionary } from '@/types'
 
-const SUNDAY = 6
-
 export const MONTHS_LABELS: Dictionary<string> = {
    0: 'January',
    1: 'February',
@@ -60,37 +58,15 @@ export const getPrev = (month: number, year: number) => {
 const getDaysInMonth = (month: number, year: number) =>
    new Date(year, month + 1, 0).getDate()
 
-const getMonthFirstDayOfWeek = (month: number, year: number) =>
+export const getMonthFirstDayOfWeek = (month: number, year: number) =>
    new Date(year, month).getDay()
 
 export const getCurrentMonthDates = (month: number, year: number) => {
    const days: Array<Date | null> = []
+   const nDays = getDaysInMonth(month, year)
 
-   const currentMonth = {
-      firstDateDayOfWeek: getMonthFirstDayOfWeek(month, year),
-      nDays: getDaysInMonth(month, year),
-   }
-
-   // Current month days
-   for (let i = 1; i <= currentMonth.nDays; i++) {
+   for (let i = 1; i <= nDays; i++) {
       days.push(new Date(year, month, i))
-   }
-
-   // Prev month days
-   if (currentMonth.firstDateDayOfWeek !== SUNDAY) {
-      for (let i = 1; i <= currentMonth.firstDateDayOfWeek; i++) {
-         days.unshift(null)
-      }
-   }
-
-   // Next month days
-   if (days.length % 7 !== 0) {
-      const weeksDisplayed = Math.floor(days.length / 7) + 1
-      const daysLeft = weeksDisplayed * 7 - days.length
-
-      for (let i = 1; i <= daysLeft; i++) {
-         days.push(null)
-      }
    }
 
    return days
