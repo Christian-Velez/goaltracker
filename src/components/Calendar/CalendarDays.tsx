@@ -29,7 +29,7 @@ const daysVariants = {
 }
 
 const CalendarDay = ({ date, onClick = () => {}, marked, index }: DayProps) => {
-   const { colorScheme, calendar } = useCalendarContext()
+   const { colorScheme, calendar, setDaysAchieved } = useCalendarContext()
    const monthFirstDayOfWeek = getMonthFirstDayOfWeek(
       calendar.month,
       calendar.year
@@ -61,7 +61,16 @@ const CalendarDay = ({ date, onClick = () => {}, marked, index }: DayProps) => {
       `${colorScheme}.300`
    )
 
-   const optimizedOnClick = useDebounce(onClick, 1000)
+   const optimizedOnClick = useDebounce(onClick, 600)
+
+   function handleClick() {
+      const marked = !isDayMarked
+
+      setIsDayMarked(marked)
+      setDaysAchieved((prev) => (marked ? prev + 1 : prev - 1))
+
+      optimizedOnClick(date, marked)
+   }
 
    return (
       <GridItem
@@ -86,11 +95,7 @@ const CalendarDay = ({ date, onClick = () => {}, marked, index }: DayProps) => {
          alignItems='center'
          textAlign='center'
          cursor='pointer'
-         onClick={() => {
-            const marked = !isDayMarked
-            setIsDayMarked(marked)
-            optimizedOnClick(date, marked)
-         }}
+         onClick={() => handleClick()}
          position='relative'
          gridColumn={index === 0 ? `${monthFirstDayOfWeek + 1}/ span 1` : ''}
       >

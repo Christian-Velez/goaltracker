@@ -1,13 +1,14 @@
 import { useCalendar, UseCalendarInfo } from './useCalendar'
 import { Grid, useColorModeValue } from '@chakra-ui/react'
 import { createContext, useContext } from 'react'
-import './styles.css'
 import { CalendarHeader } from '@/components/Calendar/CalendarHeader'
 import { CalendarDays, IsDayMarked, OnDayClick } from './CalendarDays'
+import './styles.css'
 
 type CalendarContextType = {
    colorScheme: string
    calendar: UseCalendarInfo
+   setDaysAchieved: React.Dispatch<React.SetStateAction<number>>
 }
 export const CalendarContext = createContext<CalendarContextType | null>(null)
 
@@ -23,12 +24,14 @@ type CalendarProps = {
    colorScheme: string
    initialValues?: InitialValues
    onDayClick?: OnDayClick
+   setDaysAchieved: React.Dispatch<React.SetStateAction<number>>
 }
 
 export const Calendar = ({
    colorScheme,
    initialValues,
    onDayClick,
+   setDaysAchieved,
 }: CalendarProps) => {
    const calendar = useCalendar()
    const bgColor = useColorModeValue('whiteAlpha.900', 'whiteAlpha.50')
@@ -38,6 +41,7 @@ export const Calendar = ({
          value={{
             colorScheme,
             calendar,
+            setDaysAchieved,
          }}
       >
          <Grid
