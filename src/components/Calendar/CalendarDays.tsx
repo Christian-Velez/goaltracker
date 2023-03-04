@@ -3,6 +3,7 @@ import { useCalendarContext } from './Calendar'
 import { Box, GridItem, Text, useColorModeValue } from '@chakra-ui/react'
 import { dateToString, getMonthFirstDayOfWeek, isDateInMonth } from './utils'
 import { motion } from 'framer-motion'
+import { useDebounce } from '@/hooks/useDebounce'
 
 export type OnDayClick = (date: Date, marked: boolean) => void
 export type IsDayMarked = (date: Date) => boolean | boolean
@@ -27,7 +28,7 @@ const daysVariants = {
    },
 }
 
-const CalendarDay = ({ date, onClick, marked, index }: DayProps) => {
+const CalendarDay = ({ date, onClick = () => {}, marked, index }: DayProps) => {
    const { colorScheme, calendar } = useCalendarContext()
    const monthFirstDayOfWeek = getMonthFirstDayOfWeek(
       calendar.month,
@@ -60,6 +61,8 @@ const CalendarDay = ({ date, onClick, marked, index }: DayProps) => {
       `${colorScheme}.300`
    )
 
+   const optimizedOnClick = useDebounce(onClick, 1000)
+
    return (
       <GridItem
          as={motion.div}
@@ -86,7 +89,7 @@ const CalendarDay = ({ date, onClick, marked, index }: DayProps) => {
          onClick={() => {
             const marked = !isDayMarked
             setIsDayMarked(marked)
-            onClick && onClick(date, marked)
+            optimizedOnClick(date, marked)
          }}
          position='relative'
          gridColumn={index === 0 ? `${monthFirstDayOfWeek + 1}/ span 1` : ''}

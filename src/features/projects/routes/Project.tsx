@@ -1,15 +1,14 @@
 import { Calendar } from '@/components/Calendar'
+import { Container, Text, useColorModeValue, VStack } from '@chakra-ui/react'
 import { dateToString } from '@/components/Calendar/utils'
-import { Loading } from '@/components/Loading'
-import { useProject } from '@/features/projects/api/getProject'
-import { ProjectHeader } from '@/features/projects/components/ProjectHeader'
 import { DaysAchievedLabel } from '@/features/projects/components/ProjectItem'
 import { formatStatusList } from '@/features/projects/utils'
-import { useUpdateStatus } from '@/features/status/api/updateStatus'
-import { useDebounce } from '@/hooks/useDebounce'
-import { Container, Text, useColorModeValue, VStack } from '@chakra-ui/react'
-import { useMemo } from 'react'
+import { Loading } from '@/components/Loading'
 import { Navigate, useParams } from 'react-router-dom'
+import { ProjectHeader } from '@/features/projects/components/ProjectHeader'
+import { useMemo } from 'react'
+import { useProject } from '@/features/projects/api/getProject'
+import { useUpdateStatus } from '@/features/status/api/updateStatus'
 
 export const Project = () => {
    const { projectId } = useParams()
@@ -36,8 +35,6 @@ export const Project = () => {
          },
       })
    }
-
-   const optimizedDayClick = useDebounce(onDayClick, 1000)
 
    if (loading) {
       return (
@@ -71,7 +68,7 @@ export const Project = () => {
 
             <Calendar
                colorScheme={project.color}
-               onDayClick={optimizedDayClick}
+               onDayClick={onDayClick}
                initialValues={{
                   isDayMarked: isDayAchieved,
                }}
