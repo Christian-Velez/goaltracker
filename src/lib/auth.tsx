@@ -14,9 +14,10 @@ import { useApolloClient } from '@apollo/client'
 
 type AuthContextType = {
    isAuthenticated: boolean
-   user: User | null
+   user: User
    login: (response: UserResponse) => void
    logout: () => void
+   updateUser: (data: Partial<User>) => void
 }
 
 type AuthProviderProps = {
@@ -65,19 +66,31 @@ const useAuthProvider = () => {
       client.clearStore()
    }
 
+   function updateUser(data: Partial<User>) {
+      setUser((v) => {
+         if (!v) return v
+
+         return {
+            ...v,
+            data,
+         }
+      })
+   }
+
    return {
       isLoading,
       isAuthenticated,
       user,
       login,
       logout,
+      updateUser,
    }
 }
 
 const AuthContext = createContext<AuthContextType | null>(null)
 
 export const useAuth = () => {
-   return useContext(AuthContext) as AuthContextType
+   return useContext(AuthContext) ?? ({} as AuthContextType)
 }
 
 export const Auth = ({ children }: AuthProviderProps) => {
@@ -85,5 +98,14 @@ export const Auth = ({ children }: AuthProviderProps) => {
 
    if (isLoading) return <LoadingScreen />
 
-   return <AuthContext.Provider value={auth}>{children}</AuthContext.Provider>
+   return (
+      <AuthContext.Provider
+         value={{
+            ...auth,
+            user: auth.user as User,
+         }}
+      >
+         {children}
+      </AuthContext.Provider>
+   )
 }

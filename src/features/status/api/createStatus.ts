@@ -26,11 +26,11 @@ type CreateStatusMutation = {
    }
 }
 
-export function addStatusToStore(
+export const addStatusToStore = (
    store: Partial<GetProjectQuery>,
    newCount: number,
    newStatus: Status
-) {
+) => {
    return {
       ...store,
       getProject: {

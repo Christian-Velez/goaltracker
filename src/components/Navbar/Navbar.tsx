@@ -24,11 +24,11 @@ type NavLink = {
 
 const navigation: NavLink[] = [
    {
-      to: '/app',
+      to: '/app/',
       label: 'Projects',
    },
    {
-      to: '/profile',
+      to: '/app/profile',
       label: 'Profile',
    },
 ]

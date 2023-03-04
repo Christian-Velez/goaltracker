@@ -21,11 +21,11 @@ type DeleteStatusMutation = {
    }
 }
 
-export function deleteStatusFromStore(
+export const deleteStatusFromStore = (
    store: Partial<GetProjectQuery>,
    newCount: number,
    id: string
-) {
+) => {
    const newStatusList = store.getProject?.statusList.filter(
       (status) => status.id !== id
    )

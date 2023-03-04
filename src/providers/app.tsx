@@ -16,9 +16,9 @@ export const AppProvider = ({ children }: AppProviderProps) => {
       <ChakraProvider theme={theme}>
          <React.Suspense fallback={null}>
             <ApolloProvider client={client}>
-               <Auth>
-                  <Router>{children}</Router>
-               </Auth>
+               <Router>
+                  <Auth>{children}</Auth>
+               </Router>
                <NotificationContainer />
             </ApolloProvider>
          </React.Suspense>

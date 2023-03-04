@@ -4,6 +4,7 @@ import { Navigate, Outlet, useLocation } from 'react-router-dom'
 
 const { Projects } = lazyImport(() => import('@/features/projects'), 'Projects')
 const { Project } = lazyImport(() => import('@/features/projects'), 'Project')
+const { Profile } = lazyImport(() => import('@/features/user'), 'Profile')
 
 const App = () => {
    const { pathname } = useLocation()
@@ -29,6 +30,10 @@ export const privateRoutes = [
          {
             path: 'project/:projectId',
             element: <Project />,
+         },
+         {
+            path: 'profile',
+            element: <Profile />,
          },
       ],
    },
