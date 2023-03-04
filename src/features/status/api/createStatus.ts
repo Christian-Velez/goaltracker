@@ -26,6 +26,21 @@ type CreateStatusMutation = {
    }
 }
 
+export function addStatusToStore(
+   store: Partial<GetProjectQuery>,
+   newCount: number,
+   newStatus: Status
+) {
+   return {
+      ...store,
+      getProject: {
+         ...store.getProject,
+         daysAchieved: newCount,
+         statusList: [...(store.getProject?.statusList || []), newStatus],
+      },
+   }
+}
+
 export const useCreateStatus = () => {
    const { projectId } = useParams()
    const [create, { loading, error }] = useMutation<CreateStatusMutation>(
@@ -45,17 +60,7 @@ export const useCreateStatus = () => {
 
             store.writeQuery({
                query: GET_PROJECT,
-               data: {
-                  ...dataInStore,
-                  getProject: {
-                     ...dataInStore.getProject,
-                     daysAchieved: newCount,
-                     statusList: [
-                        ...(dataInStore.getProject?.statusList || []),
-                        status,
-                     ],
-                  },
-               },
+               data: addStatusToStore(dataInStore, newCount, status),
             })
          },
       }

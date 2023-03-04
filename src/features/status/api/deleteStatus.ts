@@ -21,6 +21,25 @@ type DeleteStatusMutation = {
    }
 }
 
+export function deleteStatusFromStore(
+   store: Partial<GetProjectQuery>,
+   newCount: number,
+   id: string
+) {
+   const newStatusList = store.getProject?.statusList.filter(
+      (status) => status.id !== id
+   )
+
+   return {
+      ...store,
+      getProject: {
+         ...store.getProject,
+         daysAchieved: newCount,
+         statusList: newStatusList,
+      },
+   }
+}
+
 export const useDeleteStatus = () => {
    const { projectId } = useParams()
    const [deleteStatus, { loading, error }] = useMutation<DeleteStatusMutation>(
@@ -35,21 +54,11 @@ export const useDeleteStatus = () => {
             }) as object
 
             const { id, newCount } = response.data?.deleteStatus || {}
-
-            const newStatusList = dataInStore.getProject?.statusList.filter(
-               (status) => status.id !== id
-            )
+            if (!id || !newCount) return
 
             store.writeQuery({
                query: GET_PROJECT,
-               data: {
-                  ...dataInStore,
-                  getProject: {
-                     ...dataInStore.getProject,
-                     daysAchieved: newCount,
-                     statusList: newStatusList,
-                  },
-               },
+               data: deleteStatusFromStore(dataInStore, newCount, id),
             })
          },
       }

@@ -4,9 +4,9 @@ import { Loading } from '@/components/Loading'
 import { useProject } from '@/features/projects/api/getProject'
 import { ProjectHeader } from '@/features/projects/components/ProjectHeader'
 import { DaysAchievedLabel } from '@/features/projects/components/ProjectItem'
-import { formatStatusList, getDateId } from '@/features/projects/utils'
-import { useCreateStatus } from '@/features/status'
-import { useDeleteStatus } from '@/features/status/api/deleteStatus'
+import { formatStatusList } from '@/features/projects/utils'
+import { useUpdateStatus } from '@/features/status/api/updateStatus'
+import { useDebounce } from '@/hooks/useDebounce'
 import { Container, Text, useColorModeValue, VStack } from '@chakra-ui/react'
 import { useMemo } from 'react'
 import { Navigate, useParams } from 'react-router-dom'
@@ -14,8 +14,8 @@ import { Navigate, useParams } from 'react-router-dom'
 export const Project = () => {
    const { projectId } = useParams()
    const { project, loading, error } = useProject({ projectId })
-   const createStatusMutation = useCreateStatus()
-   const deleteStatusMutation = useDeleteStatus()
+   const updateStatusMutation = useUpdateStatus()
+
    const descColor = useColorModeValue('blackAlpha.600', 'whiteAlpha.600')
 
    const statusList = useMemo(
@@ -27,24 +27,17 @@ export const Project = () => {
       return statusList.includes(dateToString(date))
    }
 
-   function onDayClick(date: Date) {
-      if (!isDayAchieved(date)) {
-         createStatusMutation.create({
-            variables: {
-               projectId,
-               date,
-            },
-         })
-         return
-      }
-
-      const id = getDateId(project!.statusList, date)
-      deleteStatusMutation.deleteStatus({
+   function onDayClick(date: Date, marked: boolean) {
+      updateStatusMutation.update({
          variables: {
-            id,
+            projectId,
+            date,
+            marked,
          },
       })
    }
+
+   const optimizedDayClick = useDebounce(onDayClick, 1000)
 
    if (loading) {
       return (
@@ -78,7 +71,7 @@ export const Project = () => {
 
             <Calendar
                colorScheme={project.color}
-               onDayClick={onDayClick}
+               onDayClick={optimizedDayClick}
                initialValues={{
                   isDayMarked: isDayAchieved,
                }}

@@ -4,7 +4,7 @@ import { Box, GridItem, Text, useColorModeValue } from '@chakra-ui/react'
 import { dateToString, getMonthFirstDayOfWeek, isDateInMonth } from './utils'
 import { motion } from 'framer-motion'
 
-export type OnDayClick = (date: Date) => void
+export type OnDayClick = (date: Date, marked: boolean) => void
 export type IsDayMarked = (date: Date) => boolean | boolean
 
 type DayProps = {
@@ -84,8 +84,9 @@ const CalendarDay = ({ date, onClick, marked, index }: DayProps) => {
          textAlign='center'
          cursor='pointer'
          onClick={() => {
-            setIsDayMarked((prev) => !prev)
-            onClick && onClick(date)
+            const marked = !isDayMarked
+            setIsDayMarked(marked)
+            onClick && onClick(date, marked)
          }}
          position='relative'
          gridColumn={index === 0 ? `${monthFirstDayOfWeek + 1}/ span 1` : ''}
