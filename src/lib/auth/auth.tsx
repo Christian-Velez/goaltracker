@@ -1,24 +1,11 @@
-import React, {
-   createContext,
-   useCallback,
-   useContext,
-   useEffect,
-   useState,
-} from 'react'
 import storage from '@/utils/storage'
-import { User } from '@/features/user'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { UserResponse } from '@/features/auth/types'
+import { User } from '@/features/user'
 import { useGetUser } from '@/features/auth/api/getUser'
-import { LoadingScreen } from '@/components/Loading'
 import { useApolloClient } from '@apollo/client'
-
-type AuthContextType = {
-   isAuthenticated: boolean
-   user: User
-   login: (response: UserResponse) => void
-   logout: () => void
-   updateUser: (data: Partial<User>) => void
-}
+import { LoadingScreen } from '@/components/Loading'
+import { AuthContext, AuthContextType } from './provider'
 
 type AuthProviderProps = {
    children: React.ReactNode
@@ -86,8 +73,6 @@ const useAuthProvider = () => {
       updateUser,
    }
 }
-
-const AuthContext = createContext<AuthContextType | null>(null)
 
 export const useAuth = () => {
    return useContext(AuthContext) ?? ({} as AuthContextType)
